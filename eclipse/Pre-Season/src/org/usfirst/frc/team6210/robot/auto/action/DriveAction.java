@@ -22,12 +22,12 @@ public class DriveAction implements Action{
 	
 	@Override
 	public void setUp() {
-		target = base.left.get() + delta;
+		target = base.leftEncoder.get() + delta;
 	}
 
 	@Override
 	public void update() {
-		int current = base.left.get();
+		int current = base.leftEncoder.get();
 		error = target - current;
 		base.robotDrive.drive(error * p, 0);
 	}

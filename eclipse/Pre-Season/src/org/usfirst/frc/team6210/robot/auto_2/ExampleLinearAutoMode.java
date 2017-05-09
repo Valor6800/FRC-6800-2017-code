@@ -1,7 +1,6 @@
 package org.usfirst.frc.team6210.robot.auto_2;
 
 import org.usfirst.frc.team6210.robot.auto.action.DriveAction;
-import org.usfirst.frc.team6210.robot.systems.DriveBase;
 
 public class ExampleLinearAutoMode extends LinearAutoMode {
 

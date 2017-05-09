@@ -1,7 +1,5 @@
 package org.usfirst.frc.team6210.robot.auto;
 
-import java.util.ArrayList;
-
 public class AutoManager {
 		
 	private AutoMode selectedMode;

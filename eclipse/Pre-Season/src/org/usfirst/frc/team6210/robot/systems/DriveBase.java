@@ -5,13 +5,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class DriveBase {
 	
 	private static DriveBase instance;
 	
-	public Encoder left, right;
+	public Encoder leftEncoder, rightEncoder;
 	public Jaguar left1, left2, right1, right2;
 	public RobotDrive robotDrive;
 	public AnalogGyro gyro;
@@ -23,8 +22,8 @@ public class DriveBase {
 		right1 = new Jaguar(2);
 		right2 = new Jaguar(3);
 		
-		left = new Encoder(7,8,false);
-		right = new Encoder(9,10,false);
+		leftEncoder = new Encoder(7,8,false);
+		rightEncoder = new Encoder(9,10,false);
 		
 		gyro = new AnalogGyro(5);
 		

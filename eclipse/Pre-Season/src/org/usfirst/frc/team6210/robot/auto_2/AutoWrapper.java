@@ -21,8 +21,7 @@ public class AutoWrapper {
 	
 	public void run() {
 		if(autoThread != null) {
-			if(!autoThread.isAlive())
-				autoThread.start();
+			return;
 		}
 		if(!isReady) {
 			setUp();
@@ -32,16 +31,10 @@ public class AutoWrapper {
 			@Override
 			public void run(){
 				// Ensure a UPDATE_INTERVAL gap between loop intervals
-				long startTime;
-				long waitTime;
-				while(!mode.isFinished() && !Thread.interrupted()) {
-					startTime = System.currentTimeMillis();
-					
+
+				while(!mode.isFinished() && !Thread.interrupted()) {					
 					mode.update();
-					
-					waitTime = (long)(UPDATE_INTERVAL * 1000) - (startTime - System.currentTimeMillis()); 
-					if(waitTime > 0)
-						mode.waitMs(waitTime);
+					mode.waitMs((long)(UPDATE_INTERVAL * 1000));
 				}
 				mode.cleanUp();
 			}

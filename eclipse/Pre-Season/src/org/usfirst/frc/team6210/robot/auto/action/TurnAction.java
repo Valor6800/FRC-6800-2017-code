@@ -27,7 +27,7 @@ public class TurnAction implements Action{
 	@Override
 	public void update() {
 		current = base.gyro.getAngle();
-		
+		error = target - current;
 		base.robotDrive.tankDrive(error * p, error * p);
 		
 	}

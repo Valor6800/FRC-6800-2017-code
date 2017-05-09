@@ -1,7 +1,5 @@
 package org.usfirst.frc.team6210.robot.auto_2;
 
-import java.util.ArrayList;
-
 import org.usfirst.frc.team6210.robot.auto.Action;
 
 public abstract class LinearAutoMode extends AutoMode{
@@ -33,6 +31,9 @@ public abstract class LinearAutoMode extends AutoMode{
 	}
 	
 	public void update() {
+		if(!isSetup)
+			setUp();
+		
 		if(!hasRun)
 			runAutoMode();
 		hasRun = true;
