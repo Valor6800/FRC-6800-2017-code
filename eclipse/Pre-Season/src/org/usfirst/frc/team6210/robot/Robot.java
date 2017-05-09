@@ -3,6 +3,7 @@ package org.usfirst.frc.team6210.robot;
 import org.usfirst.frc.team6210.robot.auto_2.AutoMode;
 import org.usfirst.frc.team6210.robot.auto_2.AutoWrapper;
 import org.usfirst.frc.team6210.robot.auto_2.ExampleAuto;
+import org.usfirst.frc.team6210.robot.auto_2.ExampleLinearAutoMode;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 		// Add possible auto mode names to db
 		autoChooser = new SendableChooser<AutoMode>();
 		autoChooser.addDefault("Example", new ExampleAuto());
+		autoChooser.addObject("Example Linear", new ExampleLinearAutoMode());
 		SmartDashboard.putData("AutoModes", autoChooser);
 		
 	}
