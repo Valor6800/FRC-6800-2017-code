@@ -130,6 +130,8 @@ AddOutputFilter chunkFilter
 			<Item Name="Valor PID.vi" Type="VI" URL="../Valor PID.vi"/>
 			<Item Name="Vision Processing.vi" Type="VI" URL="../Vision Processing.vi"/>
 		</Item>
+		<Item Name="Gather Input.vi" Type="VI" URL="../Gather Input.vi"/>
+		<Item Name="Joystick Values.vi" Type="VI" URL="../Joystick Values.vi"/>
 		<Item Name="Robot Main.vi" Type="VI" URL="../Robot Main.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
