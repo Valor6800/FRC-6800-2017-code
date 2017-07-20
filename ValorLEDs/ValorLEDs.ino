@@ -2,7 +2,7 @@
 #define COLOR_ORDER GRB
 #define MAX_BRIGHTNESS 255
 
-#define NUM_LEDS 150
+#define NUM_LEDS 39
 
 CRGB leds[NUM_LEDS];
 
@@ -28,40 +28,76 @@ void setup() {
  FastLED.clear();
  FastLED.show();
  delay(250);
-
- // start serial port 
- Serial.begin(9600);
 }
 
 void loop() {  
+  //Serial.println(decoded());
   FastLED.clear();
-  if(decoded() == WAIT){
-    fill_solid(leds,10, CRGB::Purple);
-  } else if (decoded() == GEAR_GRAB) {
+  if(decoded() == WAIT){                        // 0 - Solid Fade
+    solid_fade(CRGB::Green, 5, WAIT);
+  } else if (decoded() == GEAR_GRAB) {          // 1 - Fill Solid
     fill_solid(leds,NUM_LEDS, CRGB::Green);
-  } else if(decoded() == TURBO) {
-    bounce(CRGB::White, 10, 10, TURBO);
-  } else if(decoded() == DEPLOY){
-    flash(CRGB::Blue, 500, DEPLOY);
-  } else if (decoded() == SHOOT) {
+  } else if(decoded() == TURBO) {               // 2 - Bounce
+    bounce(CRGB::Green, 1 , 10, TURBO);
+  } else if(decoded() == DEPLOY){               // 3 - Flash
+    flash(CRGB::Green, 500, DEPLOY);
+  } else if (decoded() == SHOOT) {              // 4 - Middle out
     middle_out(CRGB::Green, 1,true, SHOOT);
-  } else {
-    fill_solid(leds,NUM_LEDS, CRGB::Black);
+  } else {                                      // Fil Yellow
+    fill_solid(leds,NUM_LEDS, CRGB::Yellow);
   }
   FastLED.show();
   
   
+}
+
+void solid_fade(uint32_t color, uint8_t wait, int pin) {
+  fill_solid(leds, 10, color);
+  for(int bright = 0; bright <= MAX_BRIGHTNESS; bright++) {
+    if(decoded() != pin) {
+      FastLED.clear();
+      FastLED.show();
+      return;
+    }
+    if(bright < 3) {
+      fill_solid(leds, NUM_LEDS, CRGB::Black);
+    } else {
+      fill_solid(leds, NUM_LEDS, color);
+      FastLED.setBrightness(bright);
+    }
+     
+    FastLED.show();
+    delay(wait);
+  }
+  for(int bright = MAX_BRIGHTNESS; bright >= 0; bright--) {
+    if(decoded() != pin) {
+      FastLED.clear();
+      FastLED.show();
+      return;
+    }
+    if(bright < 3) {
+      fill_solid(leds, NUM_LEDS, CRGB::Black);
+    }  else {
+      fill_solid(leds, NUM_LEDS, color);
+      FastLED.setBrightness(bright);
+    }
+    FastLED.show();
+    delay(wait);
+  }
+
+  FastLED.setBrightness(MAX_BRIGHTNESS);
 }
 
 void middle_out(uint32_t color,uint8_t wait, boolean back, int pin) {
   FastLED.clear();
   FastLED.show();
+  FastLED.setBrightness(MAX_BRIGHTNESS);
   int middle[2] = {middle[0] = NUM_LEDS/2,middle[0] = NUM_LEDS/2};
   if(NUM_LEDS % 2 == 0){
     middle[1] = NUM_LEDS/2 + 1;
   }
   for(int len = 0; len < middle[0]; len ++) {
-    if(decoded() == pin) {
+    if(decoded() != pin) {
       FastLED.clear();
       FastLED.show();
       return;
@@ -75,13 +111,13 @@ void middle_out(uint32_t color,uint8_t wait, boolean back, int pin) {
   }
 
   if(back) {
-    if(decoded() == pin) {
-      FastLED.clear();
-      FastLED.show();
-      return;
-    }
-
     for(int led = middle[0]; led >= 0; led --) {
+      if(decoded() != pin) {
+        FastLED.clear();
+        FastLED.show();
+        return;
+      }
+      
       leds[led] = CRGB::Black;
       leds[middle[1] + (middle[0]- led)] = CRGB::Black;
       FastLED.show();
@@ -97,30 +133,29 @@ void bounce(uint32_t color, uint8_t wait, uint8_t blockSize, int pin) {
   FastLED.setBrightness(MAX_BRIGHTNESS);
   // GO TO END
   for(int blockHead = 0; blockHead - blockSize < NUM_LEDS; blockHead ++) {
-    if(decoded() == pin){
+    if(decoded() != pin){
       FastLED.clear();
       FastLED.show();
       return;
     }
     for(int led = 0; led < blockSize; led ++) {
-      if(blockHead - led >= 0 && blockHead - led < NUM_LEDS)
+      if(blockHead - led > 0 && blockHead - led < NUM_LEDS)
         leds[blockHead - led] = color;
     }
     if(blockHead - blockSize - 1 >=0)
       leds[blockHead - blockSize - 1] = CRGB::Black;
-
     FastLED.show();
     delay(wait);
   }
   // GO BACK
-  for(int blockHead = NUM_LEDS-1; blockHead+blockSize >= 0; blockHead --) {
-    if(decoded() == pin){
+  for(int blockHead = NUM_LEDS-2; blockHead+blockSize > 0; blockHead --) {
+    if(decoded() != pin){
       FastLED.clear();
       FastLED.show();
       return;
     }
     for(int led = 0; led < blockSize; led ++) {
-      if(blockHead + led >=0 && blockHead + led < NUM_LEDS)
+      if(blockHead + led >=0 && blockHead + led < NUM_LEDS-1)
         leds[blockHead + led] = color;
     }
     if(blockHead + blockSize + 1 < NUM_LEDS)
@@ -134,12 +169,12 @@ void bounce(uint32_t color, uint8_t wait, uint8_t blockSize, int pin) {
 }
 
 void flash(uint32_t color, int wait, int pin) {
-  while(digitalRead(pin) == 0) {
+  while(decoded() == pin) {
     unsigned long endTime = millis() + wait;
     fill_solid(leds,NUM_LEDS, color);
     FastLED.show();
     while(millis() < endTime) {
-      if(decoded() == pin){
+      if(decoded() != pin){
         FastLED.clear();
         FastLED.show();
         return;
@@ -150,7 +185,7 @@ void flash(uint32_t color, int wait, int pin) {
     FastLED.clear();
     FastLED.show();
     while(millis() < endTime) {
-      if(decoded() == pin){
+      if(decoded() != pin){
         FastLED.clear();
         FastLED.show();
         return;
