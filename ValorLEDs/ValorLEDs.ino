@@ -13,6 +13,7 @@ CRGB leds[NUM_LEDS];
 #define TURBO 2
 #define DEPLOY 3
 #define SHOOT 4
+#define DISABLED 5
 
 #define LEFT 10
 #define MIDDLE 9
@@ -23,7 +24,7 @@ void setup() {
  pinMode(MIDDLE, INPUT_PULLUP);
  pinMode(RIGHT, INPUT_PULLUP);
  
- delay( 3000 ); // power-up safety delay
+ delay( 1000 ); // power-up safety delay
  FastLED.addLeds<WS2811, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
  FastLED.clear();
  FastLED.show();
@@ -33,17 +34,19 @@ void setup() {
 void loop() {  
   //Serial.println(decoded());
   FastLED.clear();
-  if(decoded() == WAIT){                        // 0 - Solid Fade
+  if(decoded() == WAIT){                        // 0 - Solid Fade Green
     solid_fade(CRGB::Green, 5, WAIT);
-  } else if (decoded() == GEAR_GRAB) {          // 1 - Fill Solid
+  } else if (decoded() == GEAR_GRAB) {          // 1 - Fill Solid Green
     fill_solid(leds,NUM_LEDS, CRGB::Green);
-  } else if(decoded() == TURBO) {               // 2 - Bounce
+  } else if(decoded() == TURBO) {               // 2 - Bounce Green
     bounce(CRGB::Green, 1 , 10, TURBO);
-  } else if(decoded() == DEPLOY){               // 3 - Flash
+  } else if(decoded() == DEPLOY){               // 3 - Flash Green
     flash(CRGB::Green, 500, DEPLOY);
-  } else if (decoded() == SHOOT) {              // 4 - Middle out
-    middle_out(CRGB::Green, 1,true, SHOOT);
-  } else {                                      // Fil Yellow
+  } else if (decoded() == SHOOT) {              // 4 - Middle out green
+    middle_out(CRGB::Green, 50,true, SHOOT);
+  } else if (decoded() == DISABLED) {           // 5 - Yellow Fade
+    solid_fade(CRGB::Yellow, 5, WAIT);
+  } else {                                      // Fill Yellow
     fill_solid(leds,NUM_LEDS, CRGB::Yellow);
   }
   FastLED.show();
