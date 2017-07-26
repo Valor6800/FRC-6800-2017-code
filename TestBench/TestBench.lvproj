@@ -134,6 +134,7 @@ AddOutputFilter chunkFilter
 		<Item Name="Gear.vi" Type="VI" URL="../Gear.vi"/>
 		<Item Name="Joystick Values.vi" Type="VI" URL="../Joystick Values.vi"/>
 		<Item Name="Robot Main.vi" Type="VI" URL="../Robot Main.vi"/>
+		<Item Name="Shooter.vi" Type="VI" URL="../Shooter.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="8.6CompatibleGlobalVar.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/config.llb/8.6CompatibleGlobalVar.vi"/>
