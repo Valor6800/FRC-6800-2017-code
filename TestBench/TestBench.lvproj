@@ -122,19 +122,20 @@ AddOutputFilter chunkFilter
 			<Item Name="Detect Sign Change.vi" Type="VI" URL="../Detect Sign Change.vi"/>
 			<Item Name="Disabled.vi" Type="VI" URL="../Disabled.vi"/>
 			<Item Name="Finish.vi" Type="VI" URL="../Finish.vi"/>
+			<Item Name="Gather Input.vi" Type="VI" URL="../Gather Input.vi"/>
+			<Item Name="Gear.vi" Type="VI" URL="../Gear.vi"/>
+			<Item Name="Joystick Values.vi" Type="VI" URL="../Joystick Values.vi"/>
 			<Item Name="Periodic Tasks.vi" Type="VI" URL="../Periodic Tasks.vi"/>
 			<Item Name="Robot Global Data.vi" Type="VI" URL="../Robot Global Data.vi"/>
+			<Item Name="Shooter.vi" Type="VI" URL="../Shooter.vi"/>
 			<Item Name="Teleop.vi" Type="VI" URL="../Teleop.vi"/>
 			<Item Name="Test.vi" Type="VI" URL="../Test.vi"/>
 			<Item Name="Unpack Auto Array.vi" Type="VI" URL="../Unpack Auto Array.vi"/>
 			<Item Name="Valor PID.vi" Type="VI" URL="../Valor PID.vi"/>
 			<Item Name="Vision Processing.vi" Type="VI" URL="../Vision Processing.vi"/>
 		</Item>
-		<Item Name="Gather Input.vi" Type="VI" URL="../Gather Input.vi"/>
-		<Item Name="Gear.vi" Type="VI" URL="../Gear.vi"/>
-		<Item Name="Joystick Values.vi" Type="VI" URL="../Joystick Values.vi"/>
 		<Item Name="Robot Main.vi" Type="VI" URL="../Robot Main.vi"/>
-		<Item Name="Shooter.vi" Type="VI" URL="../Shooter.vi"/>
+		<Item Name="Shooter Speed Up.vi" Type="VI" URL="../Shooter Speed Up.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="8.6CompatibleGlobalVar.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/config.llb/8.6CompatibleGlobalVar.vi"/>
@@ -769,7 +770,7 @@ AddOutputFilter chunkFilter
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{6782B190-04E1-4A41-93AB-3F357B35791E}</Property>
 				<Property Name="Bld_targetDestDir" Type="Path">/home/lvuser/natinst/bin</Property>
-				<Property Name="Bld_version.build" Type="Int">2</Property>
+				<Property Name="Bld_version.build" Type="Int">3</Property>
 				<Property Name="Bld_version.major" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">startup.rtexe</Property>
 				<Property Name="Destination[0].path" Type="Path">/home/lvuser/natinst/bin/startup.rtexe</Property>
