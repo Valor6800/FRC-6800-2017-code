@@ -8,48 +8,38 @@ CRGB leds[NUM_LEDS];
 
 #define LED_PIN 6
 
-#define WAIT 0
-#define GEAR_GRAB 1
-#define TURBO 2
-#define DEPLOY 3
-#define SHOOT 4
-#define DISABLED 5
-
-#define LEFT 10
-#define MIDDLE 9
-#define RIGHT 8
+#define GEAR 2
+#define TELEOP 3
+#define HANG 4
+#define WAIT -1
 
 void setup() {
- pinMode(LEFT, INPUT_PULLUP);
- pinMode(MIDDLE, INPUT_PULLUP);
- pinMode(RIGHT, INPUT_PULLUP);
+ pinMode(GEAR, INPUT);
+ pinMode(TELEOP, INPUT);
+ pinMode(HANG, INPUT);
  
  delay( 1000 ); // power-up safety delay
  FastLED.addLeds<WS2811, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
  FastLED.clear();
  FastLED.show();
  delay(250);
+ 
 }
 
 void loop() {  
   //Serial.println(decoded());
-  FastLED.clear();
-  if(decoded() == WAIT){                        // 0 - Solid Fade Green
-    solid_fade(CRGB::Green, 5, WAIT);
-  } else if (decoded() == GEAR_GRAB) {          // 1 - Fill Solid Green
-    fill_solid(leds,NUM_LEDS, CRGB::Green);
-  } else if(decoded() == TURBO) {               // 2 - Bounce Green
-    bounce(CRGB::Green, 1 , 10, TURBO);
-  } else if(decoded() == DEPLOY){               // 3 - Flash Green
-    flash(CRGB::Green, 500, DEPLOY);
-  } else if (decoded() == SHOOT) {              // 4 - Middle out green
-    middle_out(CRGB::Green, 50,true, SHOOT);
-  } else if (decoded() == DISABLED) {           // 5 - Yellow Fade
-    solid_fade(CRGB::Yellow, 5, WAIT);
-  } else {                                      // Fill Yellow
-    fill_solid(leds,NUM_LEDS, CRGB::Yellow);
+  int key = decoded();
+  if(key == GEAR) {
+    fill_solid(leds, NUM_LEDS, CRGB::Green);
+    FastLED.show();
+  } else if (key == TELEOP) {
+    bounce(CRGB::White, 20, 10, TELEOP);
+  } else if (key == HANG) {
+    middle_out(CRGB::Green, 25,true, HANG);
+  } else {
+    solid_fade(CRGB::White, 5, WAIT);
   }
-  FastLED.show();
+  
   
   
 }
@@ -57,11 +47,7 @@ void loop() {
 void solid_fade(uint32_t color, uint8_t wait, int pin) {
   fill_solid(leds, 10, color);
   for(int bright = 0; bright <= MAX_BRIGHTNESS; bright++) {
-    if(decoded() != pin) {
-      FastLED.clear();
-      FastLED.show();
-      return;
-    }
+    
     if(bright < 3) {
       fill_solid(leds, NUM_LEDS, CRGB::Black);
     } else {
@@ -71,13 +57,14 @@ void solid_fade(uint32_t color, uint8_t wait, int pin) {
      
     FastLED.show();
     delay(wait);
-  }
-  for(int bright = MAX_BRIGHTNESS; bright >= 0; bright--) {
     if(decoded() != pin) {
       FastLED.clear();
       FastLED.show();
       return;
     }
+  }
+  for(int bright = MAX_BRIGHTNESS; bright >= 0; bright--) {
+   
     if(bright < 3) {
       fill_solid(leds, NUM_LEDS, CRGB::Black);
     }  else {
@@ -86,6 +73,11 @@ void solid_fade(uint32_t color, uint8_t wait, int pin) {
     }
     FastLED.show();
     delay(wait);
+     if(decoded() != pin) {
+      FastLED.clear();
+      FastLED.show();
+      return;
+    }
   }
 
   FastLED.setBrightness(MAX_BRIGHTNESS);
@@ -199,9 +191,16 @@ void flash(uint32_t color, int wait, int pin) {
 }
 
 int decoded() {
-  int i = digitalRead(LEFT) == 0 ? 4 : 0;
-  int j = digitalRead(MIDDLE) == 0 ? 2 : 0;
-  int k = digitalRead(RIGHT) == 0 ? 1 : 0;
-  return i + j + k;
+  int gear = digitalRead(GEAR);
+  int teleop = digitalRead(TELEOP);
+  int hang = digitalRead(HANG);
+  
+  if (teleop == 1)
+    return TELEOP;
+  else if (gear == 1)
+    return GEAR;
+  else if (hang == 1)
+    return HANG;
+  else return WAIT;
 }
 
