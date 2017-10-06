@@ -2,7 +2,7 @@
 #define COLOR_ORDER GRB
 #define MAX_BRIGHTNESS 255
 
-#define NUM_LEDS 39
+#define NUM_LEDS 30
 
 CRGB leds[NUM_LEDS];
 
@@ -19,7 +19,7 @@ void setup() {
  pinMode(HANG, INPUT);
  
  delay( 1000 ); // power-up safety delay
- FastLED.addLeds<WS2811, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+ FastLED.addLeds<WS2812B, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
  FastLED.clear();
  FastLED.show();
  delay(250);
